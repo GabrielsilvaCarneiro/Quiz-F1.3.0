@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz.F1.com.br</title>
+    <link rel="stylesheet" href="Quiz.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Quiz F1</h1>
+        <div id="question"></div>
+        <div id="options"> 
+            
+            <button class="option" id="btn-0"></button>
+            <button class="option" id="btn-1"></button>
+            <button class="option" id="btn-2"></button>
+            <button class="option" id="btn-3"></button>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container-result"> 
+    <div id="result"> 
+    </div>
+</div>
+
+    <script>
+        let questions = [
+            {
+                question: "Quem é a maior equipe de formula 1 da História ",
+                options: ["<i class='fas fa-sun icon'></i>Mclaren", "<i class='fas fa-mars icon'></i>Ferrari", "<i class='fas fa-moon icon'></i>Willians", "<i class='fas fa-venus icon'></i>Mercedes"],
+                answer: 1,
+                image: "https://media.contentapi.ea.com/content/dam/ea/f1/f1-23/common/articles/patch-note-v109/pj-f123-bel-w01-rus-unmarked.jpg.adapt.crop191x100.628p.jpg"
+            },
+            {
+                question: "Qual a equipe onde o ex-Piloto Ayrton Senna foi campeão em 1990 ?",
+                options: ["<i class='fas fa-water icon'></i>Ferrari", "<i class='fas fa-coins icon'></i>Willians", "<i class='fas fa-cog icon'></i>Mclaren", "<i class='fas fa-leaf icon'></i>Camel team Lotus"],
+                answer: 2,
+                image: "https://www.moviecars.com.br/wp-content/uploads/2022/03/ayrton.jpg"
+            },
+            {
+                question: "Qual era o antigo nome da equipe francesa Alpine ?",
+                options: ["<i class='fas fa-water icon'></i>Force indi", "<i class='fas fa-coins icon'></i>Racing Point", "<i class='fas fa-cog icon'></i>Marrusia", "<i class='fas fa-leaf icon'></i>Renault"],
+                answer: 3,
+                image: "https://as01.epimg.net/motor/imagenes/2020/08/30/formula_1/1598824582_676165_1598824693_noticia_normal_recorte1.jpg"
+            },
+             {
+                question: "Qual é a Unidade de Potência da 'RBR' Redbull Racing ?",
+                options: ["<i class='fas fa-water icon'></i>Motor Honda", "<i class='fas fa-coins icon'></i>Motor Renalt", "<i class='fas fa-cog icon'></i>Motor Ferrari", "<i class='fas fa-leaf icon'></i>Motor Mercedes"],
+                answer: 0,
+                image: "https://hips.hearstapps.com/hmg-prod/images/2018-honda-ra618h-1613386173.jfif?crop=1.00xw:0.753xh;0,0.148xh&resize=1200:*"
+            },
+            {
+                question: "Qual é o limite de velocidade no PitStop da F1 ?",
+                options: ["<i class='fas fa-water icon'></i>80 Km/h", "<i class='fas fa-coins icon'></i>120 Km/h", "<i class='fas fa-cog icon'></i>60 Km/h", "<i class='fas fa-leaf icon'></i>100 Km/h"],
+                answer: 2,
+                image: "https://images.inmotion.dhl/1200/2f75706c6f6164732f636f6e74656e742f323032322f30315f4d6f746f7273706f7274732f30315f46312f506167652f4650535f41776172642f4650532d41776172642d4865616465722d76322e6a7067.jpg"
+            },
+        ];
+
+        var currentQuestion = 0;
+        var remainingAttempts = 3;
+        var score = 20;
+
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                const questionElem = document.getElementById("question");
+                const optionsElem = document.getElementById("options");
+                var resultElem = document.getElementById("result");
+
+                questionElem.innerHTML = questions[currentQuestion].question;
+
+                optionsElem.innerHTML = "";
+                for (let i = 0; i < 4; i++) {
+                    const optionBtn = document.createElement("button");
+                    optionBtn.className = "option";
+                    optionBtn.innerHTML = questions[currentQuestion].options[i];
+                    optionBtn.addEventListener("click", () => checkAnswer(i));
+                    optionsElem.appendChild(optionBtn);
+                }
+
+                const imageElem = document.createElement("img");
+                imageElem.src = questions[currentQuestion].image;
+                imageElem.alt = "Imagem";
+                imageElem.style.width = "250px";
+                imageElem.style.height = "150px"
+                imageElem.style.marginTop = "60px";
+                imageElem.style.position = "absolute";
+                imageElem.style.left = "650px"
+
+                questionElem.appendChild(imageElem);
+
+                resultElem.innerHTML = "Tentativas restantes:" + remainingAttempts + " | Pontuação:" + score;
+            } else {
+                document.getElementById("quiz-container").innerHTML = "<h1>Fim do Quiz</h1>";
+            }
+        }
+
+        function checkAnswer(selectedAnswer) {
+            if (selectedAnswer === questions[currentQuestion].answer) {
+                score += 20;
+                currentQuestion++;
+                remainingAttempts = 3; 
+                loadQuestion();
+            } else {
+                remainingAttempts--;
+                if (remainingAttempts === 0) {
+                    document.getElementById("quiz-container").innerHTML = "<h1>Fim do Quiz</h1>";
+                } else {
+                    alert("Resposta incorreta! Tente novamente.");
+                    loadQuestion();
+                }
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
